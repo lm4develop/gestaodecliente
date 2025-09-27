@@ -177,30 +177,28 @@ function calculateAge(birthdateString) {
 
 // --- FUNÇÃO DE INICIALIZAÇÃO PARA A PÁGINA DE CADASTRO DE ANIMAIS ---
 function initClienteCadastroPage(userId) {
-    console.log("Inicializando a página de cadastro de animais para o usuário:", userId);
-    
-    const clienteForm = $('#clienteForm');
-    const db = firebase.firestore(); // Garanta que 'db' esteja acessível aqui
-	const birthdateInput = $('#animal-birthdate');
-    const ageInput = $('#animal-age');
+    console.log("Inicializando a página de cadastro de clientes para o usuário:", userId);
 
-	
-	// Listener que é acionado sempre que a data de aniversário é alterada
+    const clienteForm = $('#clientForm'); // ID CORRETO do formulário
+    const db = firebase.firestore();
+    const birthdateInput = $('#client-birthdate'); // CORRIGIDO: ID do campo de data de nascimento
+    const ageInput = $('#client-age'); // CORRIGIDO: ID do campo de idade
+
+    // Listener que é acionado sempre que a data de aniversário é alterada
     birthdateInput.on('change', function() {
         const birthdate = $(this).val();
-        const age = calculateAge(birthdate);
+        const age = calculateAge(birthdate); // Usa a sua função `calculateAge` que já existe
         ageInput.val(age);
     });
 
-
-    // --- Lógica do Botão de Limpar (FALTAVA ESTE BLOCO) ---
+    // Lógica do Botão de Limpar
     const resetButton = clienteForm.find('button[type="reset"]');
     resetButton.on('click', function() {
+        // Usamos um pequeno timeout para garantir que o reset do formulário ocorra antes de limparmos o campo de idade
         setTimeout(() => {
-             ageInput.val(''); 
+            ageInput.val('Calculando...');
         }, 1);
     });
-	
 
     // Lógica de envio do formulário
     clienteForm.off('submit').on('submit', function(event) {
@@ -209,44 +207,28 @@ function initClienteCadastroPage(userId) {
         const submitButton = $(this).find('button[type="submit"]');
         submitButton.prop('disabled', true).text('SALVANDO...');
 
+        // Coleta de dados do formulário com os IDs CORRETOS
+        const clienteData = {
+            nome: $('#client-name').val(),
+            cpf: $('#client-cpf').val(),
+            email: $('#client-email').val(),
+            senha: $('#client-password').val(), // ATENÇÃO: Salvar senhas em texto plano no Firestore não é seguro. Use o Firebase Auth para criar usuários.
+            fone: $('#client-fone').val(),
+            sexo: $('#client-gender').val(),
+            aniversario: $('#client-birthdate').val(),
+            idade: $('#client-age').val(),
+            endereco: $('#client-location').val(),
+            cidadeEstado: $('#cidade-estado').val(),
+            observacao: $('#client-notes').val(),
+            userId: userId, // ID do usuário logado (dono do cadastro)
+            cadastradoEm: new Date()
+        };
 
-        const user = firebase.auth().currentUser; // Já garantido pelo global2.js, mas reconfirmar não faz mal
-
-        if (!user || user.uid !== userId) { // Confirma que o user.uid é o esperado
-            alert("Erro: Usuário não está logado ou ID inconsistente.");
-            submitButton.prop('disabled', false).text('SALVAR CADASTRO');
-            return;
-        }
-
-        const storageRef = firebase.storage().ref();
-        const clientePicRef = storageRef.child(`animal_pics/${user.uid}/${new Date().getTime()}_${file.name}`);
-
-        let downloadURL;
-
-        clientePicRef.put(file)
-            .then(snapshot => snapshot.ref.getDownloadURL())
-            .then(url => {
-                downloadURL = url;
-                const clienteData = {
-                    nome: $('#client-name').val(),
-					cpf: $('#client-cpf').val(),
-					email: $('#client-email').val(),
-					telefone: $('#client-fone').val(),
-                    dataNasc: $('#arrival-date').val(),
-					aniversario: $('#client-birthdate').val(),
-                    idade: $('#client-age').val(),
-                    sexo: $('#animal-gender').val(),
-                    endereco: $('#animal-found-location').val(),
-					cidadeEstado: $('#cidade-estado').val(),
-                    observacao: $('#animal-notes').val(),
-                    userId: userId, // Use o userId passado
-                    cadastradoEm: new Date()
-                };
-                return db.collection("clientes").add(clienteData);
-            })
+        db.collection("clientes").add(clienteData)
             .then(() => {
                 alert("Cliente cadastrado com sucesso!");
-                clienteForm[0].reset();
+                clienteForm.reset();
+                ageInput.val('Calculando...'); // Limpa o campo de idade visualmente
             })
             .catch(error => {
                 console.error("Erro ao cadastrar cliente:", error);
@@ -257,7 +239,7 @@ function initClienteCadastroPage(userId) {
             });
     });
 
-    console.log("Lógica de cadastro de cliente configurada.");
+    console.log("Lógica de cadastro de cliente configurada com sucesso.");
 }
 
 
