@@ -380,9 +380,10 @@ function initClienteProfilePage(userId) {
     setEditable(false); // Garante que comece desabilitado
     console.log("Lógica do perfil do animal configurada.");
 });
-
+}
 // --- Torna as funções de inicialização e renderização acessíveis globalmente ---
 //window.renderAnimalTable = renderAnimalTable; // Usada na página de consulta
 window.initClienteConsultaPage = initClienteConsultaPage;
 window.initClienteCadastroPage = initClienteCadastroPage; // Usada na página de cadastro
+
 window.initClienteProfilePage = initClienteProfilePage; // Usada na página de perfil
