@@ -230,6 +230,12 @@ function initClienteCadastroPage(userId) {
     const db = firebase.firestore();
     const birthdateInput = $('#client-birthdate'); // CORRIGIDO: ID do campo de data de nascimento
     const ageInput = $('#client-age'); // CORRIGIDO: ID do campo de idade
+	
+	populateCityStateSelect();
+	
+	$('#client-fone').mask('(00) 00000-0000');
+	$('#client-cpf').mask('000.000.000-00');
+	
 
     // Listener que é acionado sempre que a data de aniversário é alterada
     birthdateInput.on('change', function() {
