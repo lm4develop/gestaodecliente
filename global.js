@@ -75,6 +75,8 @@ $(document).ready(function() {
             // O usuário ESTÁ logado.
             console.log("Usuário autenticado:", user.uid);
             window.currentUserId = user.uid;
+			const ADMIN_UID = ""; 
+			
 			
 			        // Se o usuário logado tentar acessar a página de login/cadastro, redirecione-o para a home.
         if (isAuthPage) {
