@@ -1,0 +1,354 @@
+/* Configurações Globais e Fontes */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+    --primary-color: #3897f0;
+    --secondary-color: #27ae60;
+    --delete-color: #e74c3c;
+    --sidebar-bg: #2c3e50;
+    --sidebar-text: #ecf0f1;
+    --sidebar-active-bg: #34495e;
+    --main-bg: #ecf0f1;
+    --card-bg: #ffffff;
+    --text-color: #2c3e50;
+    --border-color: #bdc3c7;
+    --dog-color: #3498db;
+    --cat-color: #9b59b6;
+    --status-full: #2ecc71;
+    --status-half: #f1c40f;
+    --status-ending: #e67e22;
+}
+
+
+
+/* ===== ESTILOS DO DASHBOARD (COM MODO DE EDIÇÃO) ===== */
+
+/* ESTILOS DO PERFIL DA ONG (RESTAURADOS E CORRIGIDOS) */
+/*.ong-profile-header {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 30px;
+    transition: box-shadow 0.3s ease;
+}*/
+
+/* Garante que a área de conteúdo principal seja uma coluna de blocos */
+.main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Espaçamento entre os blocos principais */
+    padding: 30px;
+}
+
+/* O formulário do perfil (era .ong-profile-header, agora é o <form>) */
+#ong-profile-form {
+    background-color: var(--card-bg);
+    padding: 20px;
+    border-radius: 8px;
+    display: flex; /* Alinha a foto, infos e botões lado a lado */
+    align-items: center;
+    gap: 25px;
+    transition: box-shadow 0.3s ease;
+}
+
+.ong-profile-header.is-editing { box-shadow: 0 0 0 3px rgba(56, 151, 240, 0.4); }
+.profile-pic-container { position: relative; }
+.profile-pic-container img { width: 100px; height: 100px; border-radius: 50%; border: 3px solid var(--border-color); }
+.change-pic-btn { position: absolute; bottom: 5px; right: 5px; background-color: var(--primary-color); color: white; border: none; border-radius: 50%; width: 30px; height: 30px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+.ong-info { flex-grow: 1; }
+.ong-name-input { font-size: 2em; font-weight: 700; color: var(--text-color); border: none; background: none; padding: 0; margin-bottom: 10px; width: 100%; }
+.ong-details-grid { display: grid; grid-template-columns: auto 1fr; gap: 8px 15px; align-items: center; }
+.ong-details-grid label { font-weight: 700; color: #555; }
+.ong-details-grid input { border: none; background: none; width: 100%; color: #555; }
+.ong-profile-header.is-editing input { border: 1px solid var(--border-color); border-radius: 4px; padding: 5px 8px; background-color: #fff; }
+.ong-profile-header input:disabled { border-color: transparent !important; padding: 5px 8px; }
+.ong-profile-header .ong-name-input:disabled { padding: 0; }
+.profile-actions { display: flex; flex-direction: column; gap: 10px; }
+.edit-profile-btn, .btn-primary, .btn-secondary { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 8px 15px; border-radius: 5px; cursor: pointer; border: 1px solid var(--border-color); font-weight: 500; transition: all 0.3s; }
+.btn-primary { background-color: var(--primary-color); color: white; border-color: var(--primary-color); }
+.btn-cancel { background-color: #f1f1f1; color: var(--text-color); }
+
+/* Métricas Principais */
+/*key-metrics { display: flex; gap: 30px; margin-bottom: 30px; }
+.metric-card { flex: 1; background-color: var(--card-bg); border-radius: 8px; padding: 25px; display: flex; align-items: center; }*/
+
+
+/* A seção de métricas (agora independente do formulário) */
+.key-metrics { 
+    display: flex;
+    gap: 30px;
+}
+.metric-card { 
+    flex: 1; 
+    background-color: var(--card-bg); 
+    border-radius: 8px; 
+    padding: 25px; 
+    display: flex; 
+    align-items: center; 
+}
+
+
+.metric-card .icon { font-size: 4em; margin-right: 25px; }
+.metric-card.dog-card .icon { color: var(--dog-color); }
+.metric-card.cat-card .icon { color: var(--cat-color); }
+.metric-details h2 { font-size: 1.5em; margin-bottom: 10px; }
+.metric-details .occupied { font-size: 1.1em; color: var(--delete-color); }
+.capacity-editor { display: flex; align-items: center; gap: 10px; margin-top: 8px; }
+.capacity-text { font-size: 1.1em; color: #7f8c8d; }
+.capacity-input { width: 60px; padding: 5px; border: 1px solid var(--primary-color); border-radius: 4px; }
+.edit-capacity-btn, .save-capacity-btn { background: none; border: none; cursor: pointer; color: var(--primary-color); font-size: 0.9em; }
+
+/* ESTRUTURA PARA LINHAS DE WIDGETS */
+/*.widget-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+    margin-bottom: 30px;
+}*/
+
+
+.widget-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 30px;
+}
+
+.widget {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 25px;
+}
+.widget h3 { font-size: 1.2em; margin-bottom: 25px; display: flex; align-items: center; color: var(--text-color); }
+.widget h3 i { margin-right: 10px; color: var(--primary-color); }
+
+/* Estilos da Lista de Suprimentos e Gráficos */
+.supplies-list { list-style: none; }
+.supplies-list li { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0f0f0; }
+.supplies-list li:last-child { border-bottom: none; }
+.status-tag { padding: 5px 10px; border-radius: 15px; font-size: 0.8em; font-weight: 700; color: white; min-width: 90px; text-align: center; }
+.status-tag.status-full { background-color: var(--status-full); }
+.status-tag.status-half { background-color: var(--status-half); color: #333; }
+.status-tag.status-ending { background-color: var(--status-ending); }
+.chart-container { display: flex; justify-content: space-around; align-items: flex-end; height: 200px; }
+.bar { width: 12%; border-radius: 5px 5px 0 0; position: relative; text-align: center; transition: all 0.3s ease; cursor: pointer; }
+.bar:hover { opacity: 0.8; }
+.bar.income { background-color: var(--secondary-color); }
+.bar.expense { background-color: var(--delete-color); }
+.bar .label { position: absolute; bottom: -25px; width: 100%; text-align: center; color: #555; font-size: 0.9em; }
+.bar .value { position: absolute; top: -25px; width: 100%; text-align: center; color: var(--text-color); font-weight: 700; font-size: 0.9em; opacity: 0; transition: opacity 0.3s; }
+.bar:hover .value { opacity: 1; }
+
+/* ESTILOS PARA A MINI AGENDA */
+.mini-agenda-list { list-style: none; }
+.agenda-item { display: flex; gap: 15px; padding: 12px 0; border-bottom: 1px solid #f0f0f0; }
+.agenda-item:last-child { border-bottom: none; }
+.agenda-time { font-weight: 700; color: var(--primary-color); flex-basis: 60px; }
+.agenda-details strong { display: block; color: var(--text-color); }
+.agenda-details span { font-size: 0.9em; color: #777; }
+
+
+
+
+/*ATUALIZAÇÕES*/
+
+
+/* Garante que o fundo do modal seja escuro e cubra a tela */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6); /* Fundo semi-transparente */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Garante que o conteúdo do modal seja uma caixa branca no centro */
+.modal-content {
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 550px; /* Ou o tamanho que você preferir */
+    position: relative;
+    animation: slide-down 0.4s ease-out;
+}
+
+/* Animação opcional para o modal aparecer */
+@keyframes slide-down {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+
+.profile-pic-container {
+    position: relative; /* Essencial para posicionar o botão de câmera sobre a imagem */
+    width: 120px; /* Tamanho da área da foto */
+    height: 120px;
+}
+
+#ong-image {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%; /* Deixa a imagem redonda */
+    object-fit: cover; /* Garante que a foto preencha o círculo sem distorcer */
+    border: 3px solid #ffffff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+}
+
+/* Esconde o input de arquivo original */
+#ong-image-upload {
+    display: none;
+}
+
+/* Estilo para o botão de alterar foto (o <label>) */
+.change-pic-btn {
+    position: absolute; /* Posiciona sobre a imagem */
+    bottom: 5px;
+    right: 5px;
+    width: 35px;
+    height: 35px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    border: 2px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+.change-pic-btn:hover {
+    background-color: #2c80d3;
+    transform: scale(1.1);
+}
+
+.no-data-message {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+.bar {
+    /* ... (suas propriedades existentes como width, background-color, etc.) ... */
+    
+    /* --- AS MUDANÇAS ESTÃO AQUI --- */
+    display: flex;
+    flex-direction: column; /* Empilha os itens (valor e label) verticalmente */
+    justify-content: space-between; /* Empurra o valor para o topo e o label para a base */
+    align-items: center; /* Centraliza os itens horizontalmente */
+    padding: 10px 0; /* Adiciona um pouco de espaçamento interno vertical */
+    box-sizing: border-box; /* Garante que o padding não aumente a altura */
+}
+
+/* Estilo para o valor (ex: R$1.2k) no topo da barra */
+.bar .value {
+    color: var(--text-color); /* Garante que o texto seja branco e visível */
+    font-weight: 700;
+    font-size: 0.9em;
+}
+
+/* Estilo para o label (ex: Mar) na base da barra */
+.bar .label {
+    font-weight: 500;
+    color: var(--text-color); /* Usa a cor de texto padrão */
+    /* Não precisamos mais de posicionamento absoluto aqui */
+}
+
+/* Opcional: Para barras muito pequenas, esconde o valor para não ficar feio */
+.bar[style*="height: 0%"],
+.bar[style*="height: 1%"],
+.bar[style*="height: 2%"],
+.bar[style*="height: 3%"],
+.bar[style*="height: 4%"],
+.bar[style*="height: 5%"],
+.bar[style*="height: 6%"],
+.bar[style*="height: 7%"],
+.bar[style*="height: 8%"],
+.bar[style*="height: 9%"] .value {
+    display: none;
+}
+
+.supplies-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.supplies-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.supplies-list li:last-child {
+    border-bottom: none;
+}
+
+.status-tag {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.8em;
+    font-weight: 700;
+    color: white;
+}
+
+.status-tag.status-full {
+    background-color: var(--secondary-color); /* Verde */
+}
+
+.status-tag.status-half {
+    background-color: #f39c12; /* Laranja */
+}
+
+.status-tag.status-ending {
+    background-color: var(--delete-color); /* Vermelho */
+}
+
+/* Estilo para a mensagem de "nenhum compromisso" ou erro */
+.agenda-item-empty {
+    padding: 20px 0;
+    text-align: center;
+    color: #7f8c8d;
+    font-style: italic;
+}
+
+.modal-overlay {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6); /* Fundo semi-transparente */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Garante que o conteúdo do modal seja uma caixa branca no centro */
+.modal-content {
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 550px; /* Ou o tamanho que você preferir */
+    position: relative;
+    animation: slide-down 0.4s ease-out;
+}
