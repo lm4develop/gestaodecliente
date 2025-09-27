@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastre sua ONG</title>
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="cadastro.css"> <!-- Reutilizando o mesmo CSS de estilo -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+<body>
+
+    <div class="cadastro-page-container">
+        <header class="cadastro-header">
+            <a href="index.html" class="back-link"><i class="fas fa-arrow-left"></i> Voltar para Login</a>
+        </header>
+
+        <div class="cadastro-form-wrapper">
+            <h2>Cadastre sua ONG no PetConnect</h2>
+            <p>Preencha os dados abaixo para criar sua conta de gestão.</p>
+            
+            <form class="register-form" id="register-form">
+                <!-- Seção 1: Dados da ONG -->
+                <div class="form-section">
+                    <h4>Informações da Instituição</h4>
+                    <div class="form-grid">
+                        <div class="input-group full-width"><label for="ong-name">Nome Completo da ONG</label><input type="text" id="ong-name" name="nome" required></div>
+                        <div class="input-group full-width">
+							<label>Tipo de Cadastro</label>
+							<div class="radio-group">
+								<label><input type="radio" name="tipoPessoa" value="pf" checked> Pessoa Física (CPF)</label>
+								<label><input type="radio" name="tipoPessoa" value="pj"> Pessoa Jurídica (CNPJ)</label>
+							</div>
+						</div>
+
+						<!-- Campo Dinâmico para CPF/CNPJ -->
+						<div class="input-group full-width">
+							<!-- O label será alterado pelo JS -->
+							<label for="documento" id="documento-label">CPF</label>
+							<!-- O placeholder também será alterado -->
+							<input type="text" id="documento" name="documento" placeholder="000.000.000-00" required>
+						</div>
+                        <div class="input-group full-width"><label for="ong-address">Endereço (Rua, Nº)</label><input type="text" id="ong-address" name="endereco" required></div>
+                        <div class="input-group"><label for="cidade-estado">Cidade / Estado</label><select id="cidade-estado" name="cidade-estado" class="city-select" required><option value="">Carregando...</option></select></div>
+                        <div class="input-group"><label for="ong-phone">Telefone / Whatsapp</label><input type="text" id="ong-phone" name="telefone" required></div>
+                    </div>
+                </div>
+
+                <!-- Seção 2: Dados de Acesso -->
+                 <div class="form-section">
+                    <h4>Dados de Acesso (Login)</h4>
+                    <div class="form-grid">
+                        <div class="input-group full-width"><label for="ong-email">E-mail de Acesso</label><input type="email" id="ong-email" name="email" required></div>
+                        <div class="input-group"><label for="ong-password">Senha (mín. 8 caracteres)</label><input type="password" id="ong-password" minlength="8" required></div>
+                        <div class="input-group"><label for="ong-confirm-password">Confirmar Senha</label><input type="password" id="ong-confirm-password" required></div>
+                    </div>
+                </div>
+
+                <p id="register-error-message" class="error-message"></p>
+
+                <div class="form-actions">
+                    <a href="index.html" class="btn-secondary">CANCELAR</a>
+                    <button type="submit" class="btn-primary">CRIAR CONTA</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts de Bibliotecas Externas -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+	
+	    <!-- Adicione os SDKs do Firebase aqui -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.16/jquery.mask.min.js"></script>
+
+    
+    <!-- Nosso Script Específico da Página -->
+
+	<script src="global2.js"></script>
+    <script src="cadastro.js"></script>
+
+
+</body>
+</html>

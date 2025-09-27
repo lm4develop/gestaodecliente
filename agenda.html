@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agenda - MySystem</title>
+    <link rel="stylesheet" href="agenda-style.css">
+	<link rel="stylesheet" href="global.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+</head>
+<body>
+
+ <div class="dashboard-container">
+        <!-- ===== MENU LATERAL FIXO (Igual ao anterior) ===== -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+		<div class="logo-container">
+              	  <img src="logo.png" alt="Logo PetConnect" class="logo-image">
+		</div>
+                <h2>MY SYSTEM</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="home.html"><i class="fas fa-home"></i><span>Home</span></a></li>
+                    <li><a href="clientes-cadastro.html"><i class="fa fa-users"></i><span>Clientes</span></a></li>
+                    <li><a href="financas.html"><i class="fas fa-dollar-sign"></i><span>Finanças</span></a></li>
+                    <li class="active"><a href="agenda.html"><i class="fas fa-calendar-alt"></i><span>Agenda</span></a></li>
+					<li class="nav-logout"><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Sair</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+          <!-- ===== ÁREA DE CONTEÚDO PRINCIPAL ===== -->
+        <main class="main-content">
+            <header class="page-header">
+                <div class="header-title">
+                    <i class="fas fa-calendar-alt"></i>
+                    <h1>Agenda de Compromissos</h1>
+                </div>
+                <div class="calendar-nav">
+                    <button class="nav-arrow" id="prev-week-btn"><i class="fas fa-chevron-left"></i></button>
+                    <h2 id="calendar-header-title">18 de Ago - 24 de Ago, 2025</h2>
+                    <button class="nav-arrow" id="next-week-btn"><i class="fas fa-chevron-right"></i></button>
+                    <button class="btn-today" id="today-btn">Hoje</button>
+                </div>
+            </header>
+
+            <!-- NOVO LAYOUT DE DUAS COLUNAS -->
+            <div class="agenda-layout">
+                
+                <!-- Coluna da Esquerda: Formulário de Cadastro -->
+                <div class="form-column">
+                    <div class="form-container">
+                        <h3><i class="fas fa-plus-circle"></i> Novo Compromisso</h3>
+                        <form class="event-form" id="event-form">
+                            <div class="form-group"><label for="event-title">Título</label><input type="text" id="event-title" name="titulo" required></div>
+                            <div class="form-group-inline">
+                                 <div class="form-group"><label for="event-date">Data</label><input type="date" id="event-date" name="data" required></div>
+                                 <div class="form-group"><label for="event-start-time">Início</label><input type="time" id="event-start-time" name="hora-inicio" required></div>
+                                 <div class="form-group"><label for="event-end-time">Fim</label><input type="time" id="event-end-time" name="hora-fim" required></div>
+                            </div>
+                            <div class="form-group"><label for="event-desc">Descrição</label><textarea id="event-desc" name="descricao" rows="3" required></textarea></div>
+                            <div class="form-group"><label for="event-responsible">Responsável</label><input type="text" id="event-responsible" placeholder="Nome do colaborador" name="responsavel" required></div>
+                             <div class="form-actions">
+                                <button type="reset" class="btn-secondary">LIMPAR</button>
+                                <button type="submit" class="btn-primary">SALVAR</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Coluna da Direita: Calendário -->
+                <div class="calendar-column">
+                    <div class="calendar-wrapper">
+                        <div class="calendar-header-fixed">
+                            <div class="header-time-spacer"></div>
+                            <!-- Cabeçalhos dos dias serão gerados pelo JS -->
+                            <div class="header-day" id="day-header-0"></div>
+                            <div class="header-day" id="day-header-1"></div>
+                            <div class="header-day" id="day-header-2"></div>
+                            <div class="header-day" id="day-header-3"></div>
+                            <div class="header-day" id="day-header-4"></div>
+                            <div class="header-day" id="day-header-5"></div>
+                            <div class="header-day" id="day-header-6"></div>
+                        </div>
+                        <div class="calendar-body-scrollable">
+                            <div class="calendar-grid" id="calendar-grid">
+	
+							
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+	
+	<!-- Modal de Edição de Receita (coloque no final do <body>) -->
+		<div id="edit-event-modal" class="modal-overlay">
+				<div class="modal-content">
+					<button class="close-button" onclick="closeEditEventModal()">&times;</button>
+					<h3>Editar Evento</h3>
+					<form id="edit-event-form">
+						<input type="hidden" id="edit-event-doc-id">
+						
+						<div class="form-group">
+							<label for="edit-event-title">Título</label> <!-- DICA: Usar 'for' melhora a acessibilidade -->
+							<input type="text" id="edit-event-title" name="titulo" required>
+						</div>
+						
+						<!-- DICA: Agrupar data e hora melhora o layout -->
+						<div class="form-group-inline">
+							<div class="form-group">
+								<label for="edit-event-date">Data</label>
+								<input type="date" id="edit-event-date" name="data" required>
+							</div>
+							<div class="form-group">
+								<label for="edit-event-start-time">Início</label> <!-- CORREÇÃO: ID e Name mais descritivos -->
+								<input type="time" id="edit-event-start-time" name="horaInicio" required>
+							</div>
+							<div class="form-group">
+								<label for="edit-event-end-time">Fim</label> <!-- CORREÇÃO: ID e Name mais descritivos -->
+								<input type="time" id="edit-event-end-time" name="horaFim" required>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label for="edit-event-desc">Descrição</label> <!-- CORREÇÃO: ID único -->
+							<textarea id="edit-event-desc" name="descricao" rows="3"></textarea> <!-- DICA: 'required' pode ser frustrante em textareas de edição -->
+						</div>
+						
+						<div class="form-group">
+							<label for="edit-event-responsible">Responsável</label>
+							<input type="text" id="edit-event-responsible" name="responsavel" required>
+						</div>
+						
+						<div class="modal-actions">
+							<!-- CORREÇÃO: O botão de Excluir deve ser separado e ter seu próprio ID/Classe -->
+							<button type="button" class="btn-delete-event" id="delete-event-btn">EXCLUIR</button>
+							<div class="spacer"></div> <!-- DICA: Um espaçador para alinhar à direita -->
+							<button type="button" class="btn-cancel" onclick="closeEditEventModal()">CANCELAR</button>
+							<button type="submit" class="btn-primary">SALVAR ALTERAÇÕES</button>
+						</div>
+					</form>
+				</div>
+			</div>
+
+        </main>
+    </div>
+
+    <!-- ===== SCRIPTS ===== -->
+    <!-- CORREÇÃO: Carregue seus scripts como módulos. O firebase.js inicializa e exporta o 'db' que o agenda.js importa. -->
+
+
+    <!-- 
+      REMOVIDO: As linhas abaixo foram removidas para evitar conflitos. 
+      A importação do Firebase agora é feita diretamente nos arquivos JS.
+    -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script> -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script> -->
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+	<script src="global.js"></script>
+	<script src="agenda.js"></script>
+
+	
+</body>
+</html>

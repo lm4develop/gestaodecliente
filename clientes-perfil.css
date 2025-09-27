@@ -1,0 +1,243 @@
+/* Configurações Globais e Fontes */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+    --primary-color: #3897f0;
+    --secondary-color: #27ae60;
+    --sidebar-bg: #2c3e50;
+    --sidebar-text: #ecf0f1;
+    --sidebar-active-bg: #34495e;
+    --main-bg: #ecf0f1;
+    --card-bg: #ffffff;
+    --text-color: #2c3e50;
+    --border-color: #bdc3c7;
+    --disabled-bg: #f5f5f5;
+    --logo-color: #ff7675;
+}
+
+
+/* ===== ESTILOS DA PÁGINA DE PERFIL ===== */
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+}
+
+.page-header h1 {
+    font-size: 2em;
+    color: var(--text-color);
+}
+
+.btn-back {
+    background-color: #fff;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s;
+}
+.btn-back:hover {
+    background-color: #f0f0f0;
+}
+.btn-back i {
+    margin-right: 8px;
+}
+
+.form-container {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 30px;
+}
+.animal-form {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 40px;
+}
+.form-section h4 {
+    font-size: 1.2em;
+    margin-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 10px;
+    color: var(--text-color);
+}
+
+/* Área de Foto */
+.photo-upload-area {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+#photo-preview {
+    width: 100%;
+    max-width: 280px;
+    height: 280px;
+    border-radius: 8px;
+    border: 2px solid var(--border-color);
+    object-fit: cover;
+    display: block;
+}
+.btn-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: var(--secondary-color);
+    color: white;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    width: 100%;
+    max-width: 280px;
+}
+#photo-upload { display: none; }
+
+/* Grid de Dados */
+.data-section .form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+.form-group { display: flex; flex-direction: column; }
+.form-group.full-width { grid-column: 1 / -1; }
+.form-group label { margin-bottom: 8px; font-weight: 500; }
+.form-group input, .form-group select, .form-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1em;
+    font-family: 'Roboto', sans-serif;
+}
+.form-group textarea { resize: vertical; }
+
+/* Estilo para campos desabilitados */
+.form-group input:disabled,
+.form-group select:disabled,
+.form-group textarea:disabled {
+    background-color: var(--disabled-bg);
+    color: #555;
+    cursor: not-allowed;
+    border-color: #e0e0e0;
+}
+.btn-upload[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+
+/* Ações do Formulário */
+.form-actions {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color);
+}
+.btn-primary {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: var(--primary-color);
+    color: white;
+}
+.btn-primary:hover {
+    background-color: #2c80d3;
+}
+
+.form-actions {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.actions-spacer {
+    flex-grow: 1; /* Empurra os botões para os lados */
+}
+
+
+.btn-danger {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: var(--delete-color, #e74c3c);
+    color: white;
+}
+
+.btn-secondary {
+    padding: 12px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background-color: var(--delete-color, #e74c3c);
+    color: white;
+}
+
+
+/* --- ESTILOS PARA A SEÇÃO DA FOTO (A CORREÇÃO ESTÁ AQUI) --- */
+
+.form-section.photo-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centraliza o conteúdo */
+}
+
+.photo-upload-area {
+    width: 100%;
+    max-width: 300px; /* Define um tamanho máximo para a área da foto */
+    border: 2px dashed #bdc3c7; /* Borda tracejada */
+    border-radius: 8px;
+    padding: 15px;
+    text-align: center;
+    background-color: #f8f9fa; /* Fundo cinza claro */
+}
+
+/* Garante que a imagem de preview ocupe o espaço e seja quadrada */
+#photo-preview {
+    width: 100%;
+    aspect-ratio: 1 / 1; /* Força a proporção quadrada */
+    object-fit: cover; /* Garante que a imagem preencha sem distorcer */
+    border-radius: 6px; /* Bordas arredondadas na imagem */
+    margin-bottom: 15px;
+    background-color: #e9ecef; /* Cor de fundo para o caso da imagem quebrar */
+}
+
+/* Esconde o input de arquivo original */
+#photo-upload {
+    display: none;
+}
+
+/* Estiliza o <label> para parecer um botão */
+.btn-upload {
+    display: inline-block;
+    padding: 10px 25px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 5px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.btn-upload:hover {
+    background-color: #2c80d3;
+}
+
+/* Esconde o input de arquivo original, pois usamos o label como botão */
+#photo-upload {
+    display: none;
+}

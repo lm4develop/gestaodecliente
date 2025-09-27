@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PetConnect - Acesso ONG</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+
+</head>
+<body>
+
+    <div class="login-container">
+        <div class="left-panel">
+            <div class="logo-container">
+                <img src="logo.png" alt="Logo PetConnect" class="logo-image">
+            </div>
+            <div class="info-buttons">
+                <button id="btn-about" class="btn-info" onclick="openAboutModal()">SOBRE</button>
+                <a href="documentoFEH.pdf" target="_blank" class="btn-info">DOCUMENTAÇÃO</a>
+            </div>
+        </div>
+
+        <div class="right-panel">
+            <div class="login-form-wrapper">
+                <h2>PetConnect</h2>
+                <!-- O onsubmit foi movido para o JavaScript -->
+                <form class="login-form" id="login-form">
+                    <div class="input-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" placeholder="seuemail@ong.com" required>
+                    </div>
+                    <div class="input-group">
+                        <label for="password">Senha</label>
+                        <input type="password" id="password" placeholder="********" required>
+                    </div>
+                    <button type="submit" class="btn-primary">LOGAR</button>
+                    <a href="javascript:void(0);" class="forgot-password" onclick="openForgotPasswordModal()">Esqueci a Senha</a>
+                    <p id="error-message" class="error-message"></p>
+                </form>
+                <div class="separator"><span>ou</span></div>
+                <!-- REDIRECIONA PARA A NOVA PÁGINA -->
+                <a href="cadastro.html" class="btn-secondary">CRIAR UMA CONTA</a>
+            </div>
+        </div>
+    </div>
+   
+    <!-- Modal de Esqueci a Senha -->
+    <div id="forgot-password-modal" class="modal-overlay">
+        <div class="modal-content">
+            <button class="close-button" onclick="closeModal()">×</button>
+            <h3>Redefinir Senha</h3>
+            <p>Informe seu e-mail e enviaremos um link para você criar uma nova senha.</p>
+            <form class="modal-form">
+                <div class="input-group"><label for="recovery-email">E-mail</label><input type="email" id="recovery-email" placeholder="seuemail@ong.com"></div>
+                <div class="modal-actions">
+                    <button type="button" class="btn-secondary" onclick="closeModal()">CANCELAR</button>
+                    <button type="submit" class="btn-primary">ENVIAR LINK</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Sobre o Sistema -->
+    <div id="about-modal" class="modal-overlay">
+        <div class="modal-content about-modal-content">
+            <button class="close-button" onclick="closeModal()">×</button>
+            <h3>Sobre o Sistema</h3>
+            <p>Nosso sistema foi criado com um propósito simples e poderoso: apoiar abrigos e ONGs na missão de cuidar, proteger e encontrar lares para animais resgatados.</p>
+            <p>Por isso desenvolvemos uma plataforma gratuita, pensada especialmente para facilitar a rotina das instituições que fazem a diferença todos os dias.</p>
+            <p>Com ela, é possível:</p>
+            <ul>
+                <li>Organizar a gestão dos pets e adotantes, com dados completos sobre cada um;</li>
+                <li>Controlar recursos, contatos, agenda e finanças de forma prática;</li>
+                <li>Conectar-se com o público por meio de postagens, em uma pagina de comunidade.</li>
+            </ul>
+            <p>Nosso diferencial está justamente nesse último ponto: transformamos a gestão em uma ponte com a comunidade, aproximando pessoas que querem ajudar de quem mais precisa de apoio.</p>
+            <p>Se você faz parte de uma instituição, cadastre-se e experimente.</p>
+			<p>Sugestões, dúvidas, apoio tecnico: <b>feh@gmail.com</b> .</p>
+            <p><strong>Juntos, podemos salvar mais vidas.</strong></p>
+        </div>
+    </div>
+
+    <!-- jQuery (necessário para o Select2) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ 
+    <!-- Scripts do Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+
+    <!-- Nosso helper reutilizável (O "Cérebro") -->
+    <script src="global2.js"></script>
+
+    <!-- O novo script específico para esta página (O "Gerente") -->
+    <script src="index.js"></script>
+</body>
+</html>

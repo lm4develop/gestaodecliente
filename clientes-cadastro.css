@@ -1,0 +1,101 @@
+/* Configurações Globais e Fontes */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+    --primary-color: #3897f0;
+    --secondary-color: #27ae60;
+    --sidebar-bg: #2c3e50;
+    --sidebar-text: #ecf0f1;
+    --sidebar-active-bg: #34495e;
+    --main-bg: #ecf0f1;
+    --card-bg: #ffffff;
+    --text-color: #2c3e50;
+    --border-color: #bdc3c7;
+}
+
+
+
+/* ===== ESTILOS DA PÁGINA DE ANIMAIS (CORRIGIDO) ===== */
+.page-header { margin-bottom: 25px; }
+.page-header h1 { font-size: 2em; color: var(--text-color); margin-bottom: 15px; }
+.page-tabs { display: flex; gap: 10px; border-bottom: 2px solid var(--border-color); }
+.tab-button {
+    background: none; border: none; padding: 10px 20px;
+    font-size: 1.1em; font-weight: 500; cursor: pointer;
+    color: #7f8c8d; position: relative; top: 2px;
+    text-decoration: none; font-family: 'Roboto', sans-serif;
+}
+.tab-button.active, .tab-button:hover { color: var(--primary-color); }
+.tab-button.active { border-bottom: 3px solid var(--primary-color); }
+
+
+
+
+.form-container { background-color: var(--card-bg); border-radius: 8px; padding: 30px; }
+.client-form {
+    display: grid;
+    /* CORREÇÃO APLICADA AQUI */
+    grid-template-columns: 300px 1fr; 
+    gap: 30px;
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr; /* Duas colunas de larguras iguais */
+    gap: 15px 25px; /* Espaçamento vertical e horizontal */
+}
+
+/* Faz com que os campos marcados com .full-width ocupem as duas colunas */
+.form-grid .form-group.full-width {
+    grid-column: 1 / -1;
+}
+
+/* Estilo padrão para os campos */
+.form-group label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #bdc3c7;
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box;
+}
+
+/* Estilo para o campo de idade que não pode ser editado */
+#client-age[readonly] {
+    background-color: #f8f9fa; /* Fundo cinza claro */
+    cursor: not-allowed; /* Mostra um cursor de "proibido" */
+}
+
+
+.form-section h4 { font-size: 1.2em; margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 10px; color: var(--text-color); }
+.data-section .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.form-group { display: flex; flex-direction: column; }
+.form-group.full-width { grid-column: 1 / -1; }
+.form-group label { margin-bottom: 8px; font-weight: 700; }
+.form-group input, .form-group select, .form-group textarea { width: 100%; padding: 12px; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1em; font-family: 'Roboto', sans-serif; background-color: #fff; color: #333; }
+.form-group textarea { resize: vertical; }
+.form-actions { grid-column: 1 / -1; display: flex; justify-content: flex-end; gap: 15px; margin-top: 20px; padding-top: 20px; border-top: 1px solid var(--border-color); }
+.btn-primary, .btn-secondary { padding: 12px 30px; border: none; border-radius: 5px; font-size: 1em; font-weight: 700; cursor: pointer; transition: all 0.3s ease; }
+.btn-primary { background-color: var(--primary-color); color: white; }
+.btn-primary:hover { background-color: #2c80d3; }
+.btn-secondary { background-color: #f1f1f1; border: 1px solid var(--border-color); color: var(--text-color); }
+.btn-secondary:hover { background-color: #e7e7e7; }
+
+/* --- Layout Principal do Formulário (já deve existir) --- */
+.client-form {
+    display: grid;
+    grid-template-columns: 100% 1fr 1fr; /* Coluna da foto fixa, dados flexíveis */
+    gap: 30px;
+}
+
+
+
+

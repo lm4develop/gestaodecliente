@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastro de Clientes - MySystem</title>
+    <!-- O CSS da página de animais será construído sobre a base do dashboard -->
+    <link rel="stylesheet" href="clientes-cadastro.css"> 
+	    <link rel="stylesheet" href="global.css"> 
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css">
+</head>
+<body>
+
+    <div class="dashboard-container">
+        <!-- ===== MENU LATERAL FIXO (Igual ao anterior) ===== -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+		<div class="logo-container">
+              	  <img src="logo.png" alt="Logo PetConnect" class="logo-image">
+		</div>
+                <h2>MY SYSTEM</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li><a href="home.html"><i class="fas fa-home"></i><span>Home</span></a></li>
+                    <li class="active"><a href="clientes-cadastro.html"><i class="fa fa-users"></i><span>Clientes</span></a></li>
+                    <li><a href="financas.html"><i class="fas fa-dollar-sign"></i><span>Finanças</span></a></li>
+                    <li><a href="agenda.html"><i class="fas fa-calendar-alt"></i><span>Agenda</span></a></li>
+					<li class="nav-logout"><a href="#" id="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Sair</span></a></li>
+                </ul>
+            </nav>
+        </aside>
+
+        <!-- ===== ÁREA DE CONTEÚDO PRINCIPAL ===== -->
+        <main class="main-content">
+            <header class="page-header">
+                <h1><i class="fa fa-users"></i> Gestão de Clientes</h1>
+				<div class="page-tabs">
+                    <button class="tab-button active">CADASTRAR</button>
+                    <a href="clientes-consulta.html" class="tab-button">CONSULTAR</a>
+                </div>
+            </header>
+
+            <!-- Formulário de Cadastro -->
+            <div class="form-container">
+                <form class="client-form" id="clientForm">
+                    <!-- Coluna da Direita: Dados -->
+                    <div class="form-section data-section">
+                        <h4>Dados do Cliente</h4>
+                        <div class="form-grid">
+						<!-- Linha 1: Nome e Data de Chegada -->
+						<div class="form-group">
+							<label for="client-name">Nome Completo</label>
+							<input type="text" id="client-name" name="nome" placeholder="Ex: Bob" required>
+						</div>
+				
+						<div class="form-group">
+							<label for="client-cpf">CPF</label>
+							<input type="text" id="client-cpf" name="cpf" placeholder="Ex: 000.000.000-00" required>
+						</div>
+						
+						<div class="form-group">
+							<label for="client-email">E-mail</label>
+							<input type="text" id="client-email" name="email" placeholder="Ex: Bob@gmail.com" required>
+						</div>
+						
+						<div class="form-group">
+							<label for="client-password">Senha</label>
+							<input type="text" id="client-password" name="senha" placeholder="******" required>
+						</div>
+												
+						<div class="form-group">
+							<label for="client-name">Telefone</label>
+							<input type="text" id="client-fone" name="fone" placeholder="Ex: (00)00000-0000" required>
+						</div>
+						
+						<div class="form-group">
+							<label for="client-gender">Sexo</label>
+							<select id="client-gender" name="sexo" required>
+								<option value="" disabled selected>Selecione...</option>
+								<option value="femea">Feminino</option>
+								<option value="macho">Masculino</option>
+							</select>
+						</div>
+						
+						<!-- Linha 2: Aniversário e Idade (agrupados) -->
+						<div class="form-group">
+							<label for="client-birthdate">Data de Nascimento</label>
+							<input type="date" id="client-birthdate" name="aniversario" required>
+						</div>
+						<div class="form-group">
+							<label for="client-age">Idade (Automático)</label>
+							<input type="text" id="client-age" name="idade" placeholder="Calculando..." readonly>
+						</div>
+
+						<!-- Linha 6: Endereço (largura total) -->
+						 <div class="form-group">
+							<label for="client-location">Endereço</label>
+							<input type="text" id="client-location" name="endereco" placeholder="Rua, bairro ou ponto de referência">
+						</div>
+						
+						<div class="form-group">
+							<label for="cidade-estado">Cidade / UF</label>
+							<select id="cidade-estado" name="cidade-estado" class="city-select" required>
+								<option value="">Carregando...</option>
+							</select>
+						</div>
+
+						<!-- Linha 7: Observação (largura total) -->
+						<div class="form-group full-width">
+							<label for="client-notes">Observação</label>
+							<textarea id="client-notes" rows="4" name="observacao" placeholder="Descreva o temperamento..."></textarea>
+						</div>
+					</div>
+                    
+                    <div class="form-actions">
+                        <button type="reset" class="btn-secondary">LIMPAR CAMPOS</button>
+                        <button type="submit" class="btn-primary">SALVAR CADASTRO</button>
+					</div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+<!-- ===== JAVASCRIPT ===== -->
+    
+    <!-- 
+      IMPORTANTE: Carregue todos os scripts na ordem correta
+    -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Scripts do Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-firestore.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-auth.js"></script>
+	<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-storage.js"></script>
+
+    <!-- Nosso helper reutilizável (O "Cérebro") -->
+    <script src="global.js"></script>
+	<script src="clientes.js"></script>
+
+
+</body>
+</html>

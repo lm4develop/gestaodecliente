@@ -1,0 +1,301 @@
+:root {
+    --primary-color: #3897f0;
+    --secondary-color: #6c757d;
+    --text-color: #2c3e50;
+    --border-color: #e0e0e0;
+    --card-bg: #ffffff;
+    --light-bg: #f9f9f9;
+    --light-border: #f0f0f0;
+}
+
+/* --- CABEÇALHO DA PÁGINA --- */
+.page-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+.header-title { display: flex; align-items: center; gap: 10px; font-size: 1.3em; color: var(--text-color); }
+.calendar-nav { display: flex; align-items: center; gap: 15px; }
+.calendar-nav h2 { font-size: 1.5em; color: var(--text-color); min-width: 300px; text-align: center; }
+.nav-arrow, .btn-today { background: none; border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 5px; cursor: pointer; transition: background-color 0.2s; }
+.nav-arrow:hover, .btn-today:hover { background-color: var(--light-bg); }
+.btn-today { font-weight: 500; }
+
+/* --- LAYOUT DE DUAS COLUNAS --- */
+.agenda-layout {
+    display: grid;
+    grid-template-columns: 380px 1fr; /* Coluna do formulário fixa, calendário flexível */
+    gap: 30px;
+    height: calc(100vh - 150px); /* Ajusta a altura para preencher a tela */
+}
+
+.form-column, .calendar-column { display: flex; flex-direction: column; }
+
+/* --- ESTILOS DO FORMULÁRIO (COLUNA ESQUERDA) --- */
+.form-container {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    padding: 25px;
+}
+.form-container h3 { font-size: 1.3em; margin-bottom: 20px; display: flex; align-items: center; gap: 10px; color: var(--text-color); }
+.event-form .form-group { margin-bottom: 15px; }
+.event-form label { display: block; font-weight: 500; margin-bottom: 8px; color: #555; }
+.event-form input, .event-form textarea { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 5px; font-size: 1em; box-sizing: border-box; }
+.event-form .form-group-inline { display: flex; gap: 10px; }
+.event-form .form-actions { display: flex; justify-content: flex-end; gap: 15px; margin-top: 25px; }
+.btn-primary { background-color: var(--primary-color); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; }
+.btn-secondary { background-color: var(--secondary-color); color: white; border: none; padding: 10px 20px; border-radius: 5px; cursor: pointer; }
+
+/* --- ESTILOS DO CALENDÁRIO (COLUNA DIREITA) --- */
+.calendar-wrapper {
+    flex-grow: 1; display: flex; flex-direction: column;
+    border: 1px solid var(--border-color); border-radius: 8px;
+    background-color: var(--card-bg); overflow: hidden;
+}
+.calendar-header-fixed {
+    display: grid;
+    grid-template-columns: 60px repeat(7, 1fr);
+    background-color: var(--light-bg);
+    border-bottom: 1px solid var(--border-color);
+    flex-shrink: 0;
+}
+.header-time-spacer { grid-column: 1; }
+.header-day {
+    font-weight: 500;
+    text-align: center;
+    padding: 10px 0;
+    border-left: 1px solid var(--border-color);
+}
+.header-day span { font-size: 0.8em; } /* AJUSTE: Para o nome do dia (SEG, TER) */
+.calendar-body-scrollable { overflow-y: auto; position: relative; flex-grow: 1; }
+/* O contêiner da grade principal */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: 60px repeat(7, 1fr); /* Coluna de hora + 7 dias */
+    grid-template-rows: repeat(24, 60px); /* 24 horas, cada uma com 60px de altura */
+    
+    /* A LINHA MAIS IMPORTANTE: Define este elemento como o "quadro de avisos"
+       para o posicionamento absoluto dos eventos. */
+    position: relative; 
+}
+
+.time-col { grid-column: 1; grid-row: 1 / -1; }
+.time-slot {
+    height: 60px;
+    text-align: right;
+    padding-right: 10px;
+    font-size: 0.8em;
+    color: #777;
+    border-top: 1px solid var(--light-border);
+    position: relative;
+    top: -8px; /* Alinha o texto com a linha */
+    box-sizing: border-box;
+}
+.day-col {
+    grid-row: 1 / -1;
+    border-left: 1px solid var(--border-color);
+    /* Linhas pontilhadas para cada hora */
+    background-image: linear-gradient(to bottom, var(--light-border) 1px, transparent 1px);
+    background-size: 100% 60px;
+}
+/* O "post-it" do evento */
+.event {
+    /* A SEGUNDA LINHA MAIS IMPORTANTE: Transforma o evento em um "post-it" */
+    position: absolute; 
+    
+    /* Estilos visuais */
+    background-color: var(--primary-color); /* Use a cor primária da sua paleta */
+    color: white;
+    border-radius: 4px;
+    padding: 2px 5px;
+    font-size: 0.8em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    border-left: 3px solid #2c80d3; /* Uma borda para dar destaque */
+    box-sizing: border-box; /* Garante que o padding não aumente a largura */
+    z-index: 1; /* Garante que os eventos fiquem na frente da grade */
+    cursor: pointer;
+}
+
+.event:hover {
+    opacity: 0.8;
+}
+
+.event strong {
+    display: block;
+    font-weight: 700;
+}
+
+/* Garante que o fundo do modal seja escuro e cubra a tela */
+.modal-overlay {
+    display: none;
+    position: fixed;
+    z-index: 100;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.6); /* Fundo semi-transparente */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Garante que o conteúdo do modal seja uma caixa branca no centro */
+.modal-content {
+    background-color: #fff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 550px; /* Ou o tamanho que você preferir */
+    position: relative;
+    animation: slide-down 0.4s ease-out;
+}
+
+/* Animação opcional para o modal aparecer */
+@keyframes slide-down {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+/* Garante que o fundo do modal seja escuro e cubra a tela */
+#edit-event-modal.modal-overlay {
+    display: none; /* Começa escondido */
+    position: fixed;
+    z-index: 1000; /* Z-index alto para ficar na frente de tudo */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+}
+
+/* A caixa de conteúdo branca do modal */
+#edit-event-modal .modal-content {
+    background-color: #ffffff;
+    padding: 30px 40px;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    width: 100%;
+    max-width: 550px;
+    position: relative;
+    animation: slide-down 0.4s ease-out;
+}
+
+/* Título e botão de fechar */
+#edit-event-modal h3 {
+    text-align: center;
+    font-size: 1.8em;
+    margin-bottom: 25px;
+}
+
+#edit-event-modal .close-button {
+    position: absolute;
+    top: 10px;
+    right: 20px;
+    font-size: 28px;
+    font-weight: bold;
+    color: #aaa;
+    cursor: pointer;
+    background: none;
+    border: none;
+}
+
+/* Estilos para o formulário DENTRO do modal */
+#edit-event-form .form-group {
+    margin-bottom: 15px;
+}
+
+#edit-event-form .form-group-inline {
+    display: flex;
+    gap: 15px;
+}
+
+#edit-event-form .form-group-inline .form-group {
+    flex: 1; /* Faz com que os campos de data e hora ocupem o espaço igualmente */
+}
+
+#edit-event-form label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+#edit-event-form input,
+#edit-event-form textarea {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color, #e0e0e0);
+    border-radius: 5px;
+    font-size: 1em;
+    box-sizing: border-box; /* Essencial para o padding não quebrar o layout */
+}
+
+/* Ações do Modal (botões) */
+#edit-event-form .modal-actions {
+    display: flex;
+    justify-content: space-between; /* Coloca o Excluir na esquerda e os outros na direita */
+    align-items: center;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border-color, #e0e0e0);
+}
+
+#edit-event-form .btn-primary,
+#edit-event-form .btn-cancel,
+#edit-event-form .btn-delete-event {
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-weight: 700;
+    cursor: pointer;
+    border: none;
+}
+
+#edit-event-form .btn-delete-event {
+    background-color: #e74c3c; /* Vermelho para exclusão */
+    color: white;
+}
+
+#edit-event-form .btn-delete-event:hover {
+    background-color: #c0392b;
+}
+
+/* Animação de entrada do modal */
+@keyframes slide-down {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
+
+
+
+
+
+
+.event strong {
+    display: block; /* O título fica em sua própria linha */
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis; /* Adiciona "..." se o título for muito longo */
+}
+
+.event {
+    position: absolute;
+    border-radius: 4px;
+    padding: 3px 6px; /* Padding um pouco menor para caber em colunas estreitas */
+    box-sizing: border-box;
+    overflow: hidden;
+    color: #333;
+    font-size: 0.8em; /* Fonte um pouco menor */
+    cursor: pointer;
+    transition: box-shadow 0.3s, z-index 0s;
+    z-index: 1; /* Z-index padrão */
+}
+
+.event:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    z-index: 10; /* Traz para a frente ao passar o mouse */
+}

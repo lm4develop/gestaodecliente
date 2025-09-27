@@ -1,0 +1,193 @@
+/* Configurações Globais e Fontes */
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+
+:root {
+    --primary-color: #3897f0;
+    --secondary-color: #27ae60;
+    --delete-color: #e74c3c;
+    --sidebar-bg: #2c3e50;
+    --sidebar-text: #ecf0f1;
+    --sidebar-active-bg: #34495e;
+    --main-bg: #ecf0f1;
+    --card-bg: #ffffff;
+    --text-color: #2c3e50;
+    --border-color: #bdc3c7;
+    --income-color: var(--secondary-color);
+    --expense-color: var(--delete-color);
+    --logo-color: #ff7675;
+}
+
+/* ===== ESTILOS DA PÁGINA DE FINANÇAS ===== */
+.page-header {
+    margin-bottom: 25px;
+}
+.page-header h1 {
+    font-size: 2em;
+    color: var(--text-color);
+    margin-bottom: 15px;
+}
+.page-tabs {
+    display: flex;
+    gap: 10px;
+    border-bottom: 2px solid var(--border-color);
+}
+.tab-button {
+    background: none;
+    border: none;
+    padding: 10px 20px;
+    font-size: 1.1em;
+    font-weight: 500;
+    cursor: pointer;
+    color: #7f8c8d;
+    position: relative;
+    bottom: -2px;
+    text-decoration: none;
+}
+.tab-button.active {
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--primary-color);
+}
+
+/* --- Layout Principal --- */
+.finance-layout {
+    display: grid;
+    grid-template-columns: 450px 1fr;
+    gap: 30px;
+    margin-top: 25px;
+    align-items: start;
+}
+
+.left-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* CORREÇÃO APLICADA AQUI */
+.right-column {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    min-width: 0; /* Previne que o conteúdo force a quebra do grid */
+}
+
+/* --- Componentes --- */
+.summary-card {
+    padding: 25px;
+    border-radius: 8px;
+    color: white;
+    text-align: center;
+}
+.summary-card.income-card { background-color: var(--income-color); }
+.summary-card.expense-card { background-color: var(--expense-color); }
+.summary-card h4 {
+    font-weight: 400;
+    font-size: 1.2em;
+    opacity: 0.9;
+}
+.summary-card .total-amount {
+    font-size: 2.8em;
+    font-weight: 700;
+    margin-top: 5px;
+    min-height: 1.2em;
+}
+
+.cadastro-container,
+.filter-box {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 25px;
+}
+
+/* CORREÇÃO APLICADA AQUI */
+.table-container {
+    background-color: var(--card-bg);
+    border-radius: 8px;
+    padding: 25px;
+    flex-grow: 1; /* Faz a tabela crescer para preencher o espaço vertical */
+    overflow-x: auto; /* Adiciona rolagem se a tabela for muito larga */
+}
+
+.cadastro-container h3, .filter-box h3 {
+    font-size: 1.3em;
+    margin-bottom: 20px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+/* --- Formulários e Filtros --- */
+.form-group { margin-bottom: 15px; }
+.form-group label { display: block; font-weight: 500; margin-bottom: 8px; }
+.form-group input, .form-group select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    font-size: 1em;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.btn-primary, .btn-secondary, .btn-cancel {
+    padding: 10px 25px;
+    border-radius: 5px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s;
+    border: none;
+}
+
+.btn-primary { background-color: var(--primary-color); color: white; }
+.btn-primary:hover { background-color: #2c80d3; }
+.btn-secondary { background-color: #f1f1f1; border: 1px solid var(--border-color); color: var(--text-color); }
+.btn-secondary:hover { background-color: #e7e7e7; }
+.btn-cancel { background-color: #e74c3c; color: white; }
+.btn-cancel:hover { background-color: #e74c3c; }
+
+
+.filter-box .btn-secondary {
+    margin-top: 10px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.filter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+.filter-group.full-width { grid-column: 1 / -1; }
+.filter-group input, .filter-group select { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 5px; }
+.date-range { display: flex; align-items: center; gap: 10px; }
+.date-range input { flex: 1; }
+
+/* --- Tabela --- */
+.data-table { width: 100%; border-collapse: collapse; }
+.data-table th, .data-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #e0e0e0; }
+.data-table thead { background-color: #f9f9f9; }
+.data-table th { font-size: 0.8em; font-weight: 700; text-transform: uppercase; color: #555; }
+.data-table tbody tr:hover { background-color: #f5f5f5; }
+
+.action-buttons { text-align: center; }
+.action-buttons .btn-edit, .action-buttons .btn-delete { background: none; border: none; font-size: 1.1em; cursor: pointer; padding: 5px; }
+.btn-edit-revenue, .btn-edit-expense { color: var(--primary-color); }
+.btn-delete-revenue, .btn-delete-expense { color: var(--delete-color); }
+
+/* --- Modal --- */
+.modal-overlay {
+    display: none; position: fixed; z-index: 100;
+    left: 0; top: 0; width: 100%; height: 100%;
+    overflow: auto; background-color: rgba(0,0,0,0.6);
+    justify-content: center; align-items: center;
+}
+.modal-content {
+    background-color: #fff; padding: 30px 40px; border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3); width: 100%;
+    max-width: 550px; position: relative;
+    animation: slide-down 0.4s ease-out;
+}
+@keyframes slide-down {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
