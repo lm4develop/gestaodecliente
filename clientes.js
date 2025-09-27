@@ -29,7 +29,7 @@ function renderClientTable(userId, filters = {}) {
     let unsubscribe;
     tableBody.empty().append('<tr><td colspan="8">Buscando clientes...</td></tr>');
 
-    let query = db.collection("animais").where("userId", "==", userId);
+    let query = db.collection("clientes").where("userId", "==", userId);
 
     // Adiciona filtros de igualdade (where) no Firestore
     if (filters.gender && filters.gender !== 'todos') query = query.where('sexo', '==', filters.gender);
