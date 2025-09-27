@@ -83,14 +83,14 @@ $(document).ready(function() {
             return; // Impede a execução do resto do código
         }
 						
-			/*if (user.uid === ADMIN_UID) {
+		if (user.uid === ADMIN_UID) {
             const adminButton = document.getElementById('admin-add-sponsor-btn');
             
             // Se o botão existir nesta página, torna-o visível
             if (adminButton) {
                 adminButton.style.display = 'inline-block'; // ou 'block', dependendo do seu CSS
             }
-        }*/
+        }
 
             // AGORA QUE TEMOS O USUÁRIO, EXECUTAMOS AS FUNÇÕES DA PÁGINA.
             // A lógica de configuração foi movida para DENTRO deste bloco.
