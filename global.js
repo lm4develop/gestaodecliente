@@ -70,12 +70,19 @@ $(document).ready(function() {
 	
  // --- TAREFA 2: GUARDIÃO DA AUTENTICAÇÃO ---
     firebase.auth().onAuthStateChanged(user => {
+		const isAuthPage = window.location.pathname.includes('index.html') || window.location.pathname.includes('cadastro.html');
         if (user) {
             // O usuário ESTÁ logado.
             console.log("Usuário autenticado:", user.uid);
             window.currentUserId = user.uid;
-			const ADMIN_UID = "fDlMFSWFplVfsUZjJoYKf5XFxjr1"; 
 			
+			        // Se o usuário logado tentar acessar a página de login/cadastro, redirecione-o para a home.
+        if (isAuthPage) {
+            console.log("Usuário já logado na página de autenticação. Redirecionando para home...");
+            window.location.href = 'home.html';
+            return; // Impede a execução do resto do código
+        }
+						
 			if (user.uid === ADMIN_UID) {
             const adminButton = document.getElementById('admin-add-sponsor-btn');
             
