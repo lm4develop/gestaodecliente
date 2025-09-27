@@ -10,6 +10,53 @@
  * @param {string} dateString - A data no formato AAAA-MM-DD.
  * @returns {string} - A data formatada como DD/MM/AAAA ou 'N/A' se a entrada for inválida.
  */
+ 
+ function populateCityStateSelect() {
+    const cityStateSelect = $('#cidade-estado');
+    cityStateSelect.empty().append('<option value="">Carregando cidades...</option>');
+
+    fetch('https://servicodados.ibge.gov.br/api/v1/localidades/municipios?orderBy=nome')
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Falha na resposta da rede ao buscar cidades.');
+            }
+            return response.json();
+        })
+        .then(data => {
+            cityStateSelect.empty().append('<option></option>'); // Opção vazia para o placeholder do Select2
+            
+            data.forEach(municipio => {
+                let textoOpcao = '';
+
+                // --- A CORREÇÃO ESTÁ AQUI ---
+                // Verifica se o município tem uma microrregião (evita o erro com Brasília/DF)
+                if (municipio.microrregiao) {
+                    textoOpcao = `${municipio.nome} - ${municipio.microrregiao.mesorregiao.UF.sigla}`;
+                } else if (municipio.nome === "Brasília") {
+                    // Caso especial para Brasília, que não tem microrregião
+                    textoOpcao = `${municipio.nome} - DF`;
+                } else {
+                    // Fallback para outros casos inesperados
+                    textoOpcao = municipio.nome;
+                }
+                // -------------------------
+                
+                const novaOpcao = new Option(textoOpcao, textoOpcao); // (texto, valor)
+                cityStateSelect.append(novaOpcao);
+            });
+
+            // Inicializa o Select2 no campo de cidades
+            cityStateSelect.select2({
+                placeholder: "Selecione ou digite a cidade",
+                allowClear: true
+            });
+        })
+        .catch(error => {
+            console.error('Erro ao carregar cidades:', error);
+            cityStateSelect.html('<option value="">Erro ao carregar cidades</option>');
+        });
+}
+ 
 function formatDateToBrazilian(dateString) {
     if (!dateString || typeof dateString !== 'string') {
         return 'N/A';
@@ -380,10 +427,11 @@ function initClienteProfilePage(userId) {
     setEditable(false); // Garante que comece desabilitado
     console.log("Lógica do perfil do animal configurada.");
 });
+
 }
+
 // --- Torna as funções de inicialização e renderização acessíveis globalmente ---
 //window.renderAnimalTable = renderAnimalTable; // Usada na página de consulta
 window.initClienteConsultaPage = initClienteConsultaPage;
 window.initClienteCadastroPage = initClienteCadastroPage; // Usada na página de cadastro
-
 window.initClienteProfilePage = initClienteProfilePage; // Usada na página de perfil
