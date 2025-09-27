@@ -401,6 +401,6 @@ function initClienteProfilePage(userId) {
 
 // --- Torna as funções de inicialização e renderização acessíveis globalmente ---
 //window.renderAnimalTable = renderAnimalTable; // Usada na página de consulta
-window.initClienteConsultaPage = initAnimalConsultaPage;
-window.initClienteCadastroPage = initAnimalCadastroPage; // Usada na página de cadastro
-window.initClienteProfilePage = initAnimalProfilePage; // Usada na página de perfil
+window.initClienteConsultaPage = initClienteConsultaPage;
+window.initClienteCadastroPage = initClienteCadastroPage; // Usada na página de cadastro
+window.initClienteProfilePage = initClienteProfilePage; // Usada na página de perfil
