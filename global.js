@@ -69,103 +69,57 @@ $(document).ready(function() {
     });
 	
  // --- TAREFA 2: GUARDIÃO DA AUTENTICAÇÃO ---
-    firebase.auth().onAuthStateChanged(user => {
-		const isAuthPage = window.location.pathname.includes('index.html') || window.location.pathname.includes('cadastro.html');
-        if (user) {
-            // O usuário ESTÁ logado.
-            console.log("Usuário autenticado:", user.uid);
-            window.currentUserId = user.uid;
-			const ADMIN_UID = ""; 
-			
-			
-			        // Se o usuário logado tentar acessar a página de login/cadastro, redirecione-o para a home.
+firebase.auth().onAuthStateChanged(user => {
+    // --- CORREÇÃO APLICADA AQUI ---
+    // Pega o caminho da URL (ex: "/pasta/clientes-cadastro.html")
+    const pathParts = window.location.pathname.split('/');
+    // Pega a última parte, que é o nome do arquivo (ex: "clientes-cadastro.html")
+    const currentPage = pathParts.pop() || pathParts.pop(); // O '||' lida com casos de ter uma barra '/' no final
+
+    // A verificação agora é exata, não apenas um 'includes'
+    const isAuthPage = currentPage === 'index.html' || currentPage === 'cadastro.html';
+    // -----------------------------
+
+    if (user) {
+        // --- USUÁRIO ESTÁ LOGADO ---
+        console.log("Usuário autenticado:", user.uid);
+        window.currentUserId = user.uid;
+
+        // Esta lógica agora funcionará corretamente
         if (isAuthPage) {
             console.log("Usuário já logado na página de autenticação. Redirecionando para home...");
             window.location.href = 'home.html';
-            return; // Impede a execução do resto do código
-        }
-						
-		if (user.uid === ADMIN_UID) {
-            const adminButton = document.getElementById('admin-add-sponsor-btn');
-            
-            // Se o botão existir nesta página, torna-o visível
-            if (adminButton) {
-                adminButton.style.display = 'inline-block'; // ou 'block', dependendo do seu CSS
-            }
+            return;
         }
 
-            // AGORA QUE TEMOS O USUÁRIO, EXECUTAMOS AS FUNÇÕES DA PÁGINA.
-            // A lógica de configuração foi movida para DENTRO deste bloco.
+        // --- INICIALIZAÇÃO DA PÁGINA ATUAL ---
+        // (O resto do seu código de inicialização de página permanece o mesmo)
+        if ($('#clientForm').length > 0 && typeof window.initClienteCadastroPage === 'function') {
+            console.log("Executando initClienteCadastroPage...");
+            window.initClienteCadastroPage(user.uid);
 
-            // Tarefa 2.1: Configurar formulários genéricos
-            
-            if ($('#revenueForm').length > 0) setupFirebaseForm('revenueForm', 'receitas', 'Receita cadastrada!');
-			
+        } else if ($('#cliente-table-body').length > 0 && typeof window.initClienteConsultaPage === 'function') {
+            console.log("Executando initClienteConsultaPage...");
+            window.initClienteConsultaPage(user.uid);
 
-            if ($('#clientForm').length > 0) {
-                if (typeof window.initClienteCadastroPage === 'function') {
-                    window.initClienteCadastroPage(user.uid);
-                }
-            }
-			
-			
-            // Tarefa 2.2: Renderizar tabelas
-			
-			
-			// Verifica se está na página "Meus Posts"
-			if ($('#my-posts-grid').length > 0) {
-				if (typeof window.initMyPostsPage === 'function') {
-					window.initMyPostsPage(user.uid);
-				}
-			}
-			
-			 if ($('#revenue-table-body').length > 0) { 
-                if (typeof window.initRevenuePage === 'function') {
-                    window.initRevenuePage(user.uid);
-                }
-            }
-			
-			
-			if ($('#calendar-grid').length > 0 || $('#event-form').length > 0) { // Verifica se estamos na página da agenda
-                if (typeof window.initAgendaPage === 'function') {
-                    window.initAgendaPage(user.uid);
-                }
-            }
-			if ($('#clienteForm').length > 0) { // Verifica se estamos na página de cadastro
-                if (typeof window.initClienteCadastroPage === 'function') {
-                    window.initClienteCadastroPage(user.uid);
-                }
-            }
-			
-			if ($('#cliente-table-body').length > 0) {
-                // Em vez de chamar renderAnimalTable diretamente, chamamos a função de inicialização.
-                if (typeof window.initClienteConsultaPage === 'function') {
-                    window.initClienteConsultaPage(user.uid);
-                }
-            }
-            
-            // Página de Perfil do Animal
-            if ($('#cliente-profile-form').length > 0 && new URLSearchParams(window.location.search).has('id')) {
-                if (typeof window.initClienteProfilePage === 'function') {
-                    window.initClienteProfilePage(user.uid);
-                }
-            }
-			
-			if ($('#ong-profile-form').length > 0)  {
-                if (typeof window.initHomePage === 'function') {
-                    window.initHomePage(user.uid);
-                }
-            }
-			
-
-        } else {
-            // O usuário NÃO está logado. Redireciona para o login.
-            console.log("Nenhum usuário logado. Redirecionando...");
-            // Exclui a página de cadastro do redirecionamento para evitar loop infinito
-            if (!window.location.pathname.includes('cadastro.html') && !window.location.pathname.includes('index.html')) {
-                window.location.href = 'index.html';
-            }
+        } else if ($('#cliente-profile-form').length > 0 && typeof window.initClienteProfilePage === 'function') {
+            console.log("Executando initClienteProfilePage...");
+            window.initClienteProfilePage(user.uid);
+        
+        } else if ($('#ong-profile-form').length > 0 && typeof window.initHomePage === 'function') {
+            console.log("Executando initHomePage...");
+            window.initHomePage(user.uid);
         }
-    });
+
+    } else {
+        // --- USUÁRIO NÃO ESTÁ LOGADO ---
+        console.log("Nenhum usuário logado.");
+
+        if (!isAuthPage) {
+            console.log("Acesso a página protegida sem login. Redirecionando para index.html...");
+            window.location.href = 'index.html';
+        }
+    }
+});
 
 });
