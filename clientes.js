@@ -70,87 +70,49 @@ function formatDateToBrazilian(dateString) {
     return `${day}/${month}/${year}`;
 }
  
-function renderClientTable(userId, filters = {}) {
+function renderClientTable(userId, filters = {}) { // Deixamos os filtros aqui para não quebrar a chamada
     const db = firebase.firestore();
-    const tableBody = $('#client-table-body'); // O ID no seu HTML está 'client-table-body'
-    let unsubscribe;
+    const tableBody = $('#client-table-body');
     
-    // O colspan deve ser 5 para corresponder às 5 colunas do seu thead
-    tableBody.empty().append('<tr><td colspan="5">Buscando clientes...</td></tr>');
+    console.log("Executando consulta SIMPLIFICADA para o userId:", userId);
+    tableBody.empty().append('<tr><td colspan="5">Buscando com query simplificada...</td></tr>');
 
+    // A ÚNICA CONDIÇÃO É O USERID
     let query = db.collection("clientes").where("userId", "==", userId);
 
-    // Adiciona filtros de igualdade (where) no Firestore
-    if (filters.gender && filters.gender !== 'todos') {
-        query = query.where('sexo', '==', filters.gender);
-    }
-    
-    // --- CORREÇÃO NO FILTRO DE DATA ---
-    // O campo no banco de dados se chama 'aniversario'
-    if (filters.dateFrom) {
-        query = query.where('aniversario', '>=', filters.dateFrom);
-    }
-    if (filters.dateTo) {
-        query = query.where('aniversario', '<=', filters.dateTo);
-    }
-    
-    unsubscribe = query.onSnapshot((querySnapshot) => {
+    query.onSnapshot((querySnapshot) => {
+        console.log("Snapshot recebido. Número de documentos:", querySnapshot.size);
         tableBody.empty();
-        let clientes = [];
-        querySnapshot.forEach(doc => {
-            clientes.push({ id: doc.id, data: doc.data() });
-        });
 
-        const searchTerm = (filters.searchTerm || '').toLowerCase().trim();
-        let finalResults = clientes;
-
-        // --- CORREÇÃO NO FILTRO DE TEXTO ---
-        if (searchTerm) {
-            finalResults = clientes.filter(cliente => { // Corrigido de 'animal' para 'cliente'
-                // Certifica que estamos acessando 'cliente.data'
-                const name = (cliente.data.nome || '').toLowerCase();
-                const cpf = (cliente.data.cpf || '').toLowerCase();
-                const fone = (cliente.data.fone || '').toLowerCase();
-                const observation = (cliente.data.observacao || '').toLowerCase();
-                const id = cliente.id.toLowerCase();
-                // Agora busca em todos os campos relevantes
-                return name.includes(searchTerm) || cpf.includes(searchTerm) || fone.includes(searchTerm) || observation.includes(searchTerm) || id.includes(searchTerm);
-            });
-        }
-        
-        if (finalResults.length === 0) {
-            tableBody.append('<tr><td colspan="5">Nenhum cliente encontrado com os filtros aplicados.</td></tr>');
+        if (querySnapshot.empty) {
+            console.log("Nenhum documento encontrado para este usuário.");
+            tableBody.append('<tr><td colspan="5">Nenhum cliente encontrado.</td></tr>');
             return;
         }
 
-        finalResults.forEach(cliente => {
-            const data = cliente.data;
-            const perfilUrl = `clientes-perfil.html?id=${cliente.id}`; // Ajuste para o nome correto do arquivo de perfil
-
-            // --- CORREÇÃO NA CRIAÇÃO DA LINHA DA TABELA ---
-            // Agora as colunas correspondem ao seu HTML: Nome, CPF, Sexo, Telefone, Ações
+        querySnapshot.forEach(doc => {
+            const data = doc.data();
+            console.log("Cliente encontrado:", data.nome);
+            const perfilUrl = `clientes-perfil.html?id=${doc.id}`;
             const row = `
-                <tr data-id="${cliente.id}">
+                <tr data-id="${doc.id}">
                     <td>${data.nome || 'N/A'}</td>
                     <td>${data.cpf || 'N/A'}</td>
                     <td>${data.sexo || 'N/A'}</td>
                     <td>${data.fone || 'N/A'}</td>
-                    <td>
-                        <a href="${perfilUrl}" class="btn-primary-small">
-                            <i class="fas fa-external-link-alt"></i> Abrir Perfil
-                        </a>
-                    </td>
+                    <td><a href="${perfilUrl}" class="btn-primary-small">Abrir Perfil</a></td>
                 </tr>
             `;
             tableBody.append(row);
         });
 
     }, (error) => {
-        console.error("Erro ao buscar clientes:", error); // Mensagem de erro corrigida
+        // Se houver um erro de permissão ou outro, ele aparecerá aqui
+        console.error("ERRO NO SNAPSHOT:", error);
         tableBody.empty().append('<tr><td colspan="5">Erro ao buscar dados. Verifique o console.</td></tr>');
     });
 
-    return unsubscribe; // Retorna a função para parar de ouvir
+    // Não precisamos retornar o 'unsubscribe' para este teste
 }
 
 
